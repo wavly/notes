@@ -1,8 +1,8 @@
 # Contributing Guidelines
 
-## Welcome to [Project Name]!
+## Welcome to Limulr Notes!
 
-We're thrilled you're considering contributing to [Project Name]. Your contributions help us grow and improve. Here's how you can contribute:
+We're thrilled you're considering contributing to Limulr Notes. Your contributions help us grow and improve. Here's how you can contribute:
 
 ### Reporting Bugs or Requesting Features
 
