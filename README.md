@@ -1,38 +1,34 @@
-# [Project Name]
+# Limulr Notes
 
-*Short description or tagline of the project*
+*Open Source Note taking app designed for the community*
 
 ---
 
-## About The Project
-
-- Briefly explain what this project does.
-- Highlight unique features or what makes this project stand out.
-- Provide context or background if necessary.
-
 ## Demo/Live Link
 
-- [Link to Demo or Live Version](#)
+- Not avail
 
 ## Getting Started
 
 ### Prerequisites
 
 - List any prerequisites, libraries, or tools needed to run this project.
+- NodeJS LTS
+- Yarn (Requires NPM)
 
 ### Installation and Setup
 
 1. **Clone the repository**:
    ```
-   git clone [repository link]
+   git clone https://github.com/limulr/notes
    ```
 2. **Navigate to the project directory**:
    ```
-   cd [project name]
+   cd notes
    ```
 3. **Install dependencies**:
    ```
-   [Commands to install dependencies]
+   yarn add 
    ```
 4. **Run the application**:
    ```
@@ -55,6 +51,4 @@ We welcome contributions to this project! For guidelines on how to contribute, p
 
 ## Additional Information
 
-- [Project Name] is [License](LICENSE) under MIT.
-- Any other information or sections relevant to the project can be added here.
-
+Limulr Notes is [GNUV3](LICENSE) under MIT.
