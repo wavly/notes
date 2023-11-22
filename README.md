@@ -1,4 +1,4 @@
-# Limulr Notes
+# Wavly Notes
 
 *Open Source Note taking app designed for the community*
 
@@ -20,7 +20,7 @@
 
 1. **Clone the repository**:
    ```
-   git clone https://github.com/limulr/notes
+   git clone https://github.com/wavly/notes
    ```
 2. **Navigate to the project directory**:
    ```
@@ -51,4 +51,4 @@ We welcome contributions to this project! For guidelines on how to contribute, p
 
 ## Additional Information
 
-Limulr Notes is [GNUV3](LICENSE) under MIT.
+Wavly Notes is [GNUV3](LICENSE) under MIT.
