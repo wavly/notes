@@ -1,11 +1,9 @@
 "use client";
 
-export default function Home() {
-
+export default function NotePage() {
   return (
     <main className="flex flex-col items-center justify-center p-4">
-    <h1>Yet to be finished Lol !!!</h1>
-    <h2>Yo wassup guys</h2>
+      <p className="text-lg">Create a new note to begin noting LOL</p>
     </main>
-  )
+  );
 }

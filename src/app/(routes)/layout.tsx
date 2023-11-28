@@ -1,33 +1,28 @@
 "use client";
 
 import "@/app/globals.css";
-import { Auth } from "@/app/_lib/db";
+import Navigation from "./_components/navigation";
 
-import { useEffect } from "react";
-import { Inter } from "next/font/google";
 import { redirect } from "next/navigation";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let isAuthed: string | null = null;
-
-  useEffect(()=> {
-      const AuthDb = new Auth("auth");
-      isAuthed = AuthDb.checkAuth();
-  }, [])
+  let isAuthed: string = "auth";
 
   if (!isAuthed) {
     return redirect("/auth");
   }
 
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-full w-full">
+      <body className="h-full">
+      <div className="h-full flex flex-row dark:bg-[#1F1F1F]">
+        <Navigation />
+        <div className="flex-1 items-center justify-center overflow-y-auto">{children}</div></div>
+      </body>
     </html>
   );
 }

@@ -1,47 +1,40 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+
 import { Auth } from "@/app/_lib/db";
 import { Button } from "@/components/ui/button";
 
-export default function Home() {
-  let AuthDb: Auth | null = null;
+export default function AuthPage() {
+  const AuthDb = new Auth("auth");
   const router = useRouter();
   const [isAuthed, setIsAuthed] = useState<string | null>(null);
-  const [checkAuth, setCheckAuth] = useState<() => string | null>(() => nullAuthFunction);
+  const [checkAuth, setCheckAuth] = useState<() => string | null>(
+    () => nullAuthFunction
+  );
 
   function nullAuthFunction() {
     return null;
   }
 
   useEffect(() => {
-    AuthDb = new Auth("auth");
-
-    function authFunction() {
-      if (AuthDb) {
-        return AuthDb.checkAuth();
-      }
-      return null;
-    }
+    const authFunction = () => {
+      return AuthDb.checkAuth();
+    };
 
     setCheckAuth(() => authFunction);
   }, []);
 
   const authOut = async () => {
-    if (AuthDb) {
-      await AuthDb.removeAuth();
-    }
-
-    setIsAuthed(checkAuth);
+    await AuthDb.removeAuth();
+    setIsAuthed(checkAuth());
   };
 
   const authIn = async () => {
-    if (AuthDb) {
-      await AuthDb.createAuth();
-    }
-
-    setIsAuthed(checkAuth);
+    await AuthDb.createAuth();
+    setIsAuthed(checkAuth());
   };
 
   return (
@@ -53,7 +46,7 @@ export default function Home() {
         ) : (
           <Button onClick={authOut}>Auth Out</Button>
         )}
-        <Button onClick={() => router.push("/note")}>Note</Button>
+        <Button><Link href="/note">Note</Link></Button>
       </div>
     </main>
   );
