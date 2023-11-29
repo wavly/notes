@@ -1,53 +1,42 @@
-"use client";
+import { Auth, Typography, Button } from "@supabase/ui";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { ReactNode } from "react";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+const { Text } = Typography;
 
-import { Auth } from "@/app/_lib/db";
-import { Button } from "@/components/ui/button";
+// Create a single Supabase client for interacting with your database
+const supabase = createClient(
+  "https://xyzcompany.supabase.co",
+  "public-anon-key"
+);
+
+interface ContainerProps {
+  supabaseClient: SupabaseClient;
+  children?: ReactNode;
+}
+
+const Container = ({ supabaseClient, children }: ContainerProps) => {
+  const { user } = Auth.useUser();
+  if (user) {
+    console.log(user);
+    return (
+      <>
+        <Text>Signed in: {user.email}</Text>
+        <Button block onClick={() => supabaseClient.auth.signOut()}>
+          Sign out
+        </Button>
+      </>
+    );
+  }
+  return <>{children}</>;
+};
 
 export default function AuthPage() {
-  const AuthDb = new Auth("auth");
-  const router = useRouter();
-  const [isAuthed, setIsAuthed] = useState<string | null>(null);
-  const [checkAuth, setCheckAuth] = useState<() => string | null>(
-    () => nullAuthFunction
-  );
-
-  function nullAuthFunction() {
-    return null;
-  }
-
-  useEffect(() => {
-    const authFunction = () => {
-      return AuthDb.checkAuth();
-    };
-
-    setCheckAuth(() => authFunction);
-  }, []);
-
-  const authOut = async () => {
-    await AuthDb.removeAuth();
-    setIsAuthed(checkAuth());
-  };
-
-  const authIn = async () => {
-    await AuthDb.createAuth();
-    setIsAuthed(checkAuth());
-  };
-
   return (
-    <main className="flex flex-col items-center justify-center p-4">
-      <h1>Just a template for authentication with localStorage </h1>
-      <div className="flex min-h-screen flex-row items-center justify-center gap-4 p-2">
-        {!isAuthed ? (
-          <Button onClick={authIn}>Auth In</Button>
-        ) : (
-          <Button onClick={authOut}>Auth Out</Button>
-        )}
-        <Button><Link href="/note">Note</Link></Button>
-      </div>
-    </main>
+    <Auth.UserContextProvider supabaseClient={supabase}>
+      <Container supabaseClient={supabase}>
+        <Auth providers={['facebook', 'github']} supabaseClient={supabase} />
+      </Container>
+    </Auth.UserContextProvider>
   );
 }

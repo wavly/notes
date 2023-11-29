@@ -30,7 +30,7 @@ export default function Navigation() {
     NoteDb.deleteNote(noteId);
     
     loadNotes();
-    router.push(`/note`)
+    router.push(`/notes`)
   };
 
   const handleCreateNote = () => {
@@ -42,7 +42,7 @@ export default function Navigation() {
   };
 
   const openNote = (noteId: number) => {
-    router.push(`/note/${noteId}`);
+    router.push(`/notes/${noteId}`);
   }
 
   return (

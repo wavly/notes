@@ -1,0 +1,24 @@
+header {
+	@apply flex 
+				gap-2 
+				p-2 
+				rounded-md 
+				bg-gradient-to-r
+				to-emerald-500 
+				from-violet-500 
+				justify-between 
+				items-center 
+				w-[96%] 
+				max-w-3xl;
+}
+
+.link {
+	@apply px-2 
+				py-1 
+				border-2  
+				border-transparent 
+				hover:border-current 
+				rounded  
+				shadow-slate-600 
+				shadow-sm;
+}
