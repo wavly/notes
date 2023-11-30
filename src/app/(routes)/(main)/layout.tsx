@@ -1,7 +1,5 @@
-// "use client";
-
 import "@/styles/globals.css";
-import Navigation from "../_components/navigation";
+import Navigation from "@/app/_components/navigation";
 
 export default function RootLayout({
 	children,

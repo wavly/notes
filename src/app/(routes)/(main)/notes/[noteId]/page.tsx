@@ -1,7 +1,7 @@
 "use client";
 
 import { Notes } from "@/app/_lib/db";
-import Editor from "../../../_components/editor";
+import Editor from "@/app/_components/editor";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState, ChangeEvent } from "react";

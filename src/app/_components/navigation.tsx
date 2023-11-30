@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 import { Notes } from "@/app/_lib/db";
-import { Button } from "@/components/ui/button";
+import { Button } from "@radix-ui/themes";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 
 type Note = {

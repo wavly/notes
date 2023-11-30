@@ -1,26 +1,34 @@
-import Link from "next/link";
-import React from "react";
+import NextLink from "next/link";
+import "@radix-ui/themes/styles.css";
+import { Flex, Button } from "@radix-ui/themes";
 
-import "@/styles/Header.css";
+import { getUser } from "@/lib/auth";
+import { AuthButton } from "../app/_components/authButton";
 
-export default function Header() {
-  return (
-    <>
-      <header>
-        <div className="logo">
-          <Link href={"/"} className="link">
-            Home
-          </Link>
-        </div>
-        <nav className="flex gap-x-2">
-          <Link href={"/dashboard"} className="link">
-            Dashboard
-          </Link>
-          <Link href={"/notes"} className="link">
-            Notes
-          </Link>
-        </nav>
-      </header>
-    </>
-  );
+export default async function Header() {
+	const { isAuthenticated } = await getUser();
+
+	return (
+		<>
+			<header>
+				<Flex gap="4">
+					<Button asChild variant="soft">
+						<NextLink href="/">Home</NextLink>
+					</Button>
+
+					<Button asChild variant="soft">
+						<NextLink href="/account">Account</NextLink>
+					</Button>
+
+					{isAuthenticated && (
+						<Button asChild variant="soft">
+							<NextLink href="/notes">Notes</NextLink>
+						</Button>
+					)}
+				</Flex>
+
+				<AuthButton />
+			</header>
+		</>
+	);
 }
