@@ -3,42 +3,63 @@
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
-import { Notes } from "@/app/_lib/db";
 import { Button } from "@radix-ui/themes";
 import { Pencil, Plus, Trash2 } from "lucide-react";
+
+import { getUserId } from "@/app/_lib/getUser";
+import { createNote, deleteNote, getNotesByUser } from "@/lib/db";
 
 type Note = {
 	id: number;
 	title: string;
-	content: string;
 };
 
-export default function Navigation() {
+export default async function Navigation() {
 	const router = useRouter();
-	const NoteDb = new Notes("note");
-	const [notes, setNotes] = useState<Note[]>([]);
+	const [userId, setUserId] = useState<string>("");
+	const [notes, setNotes] = useState<Note[] | null>([]);
+
+	setUserId(await getUserId());
+
+	const loadNotes = async () => {
+		if (userId !== "") {
+			try {
+				const fetchedNotes = await getNotesByUser(userId);
+				const convertedNotes = convertToNotes(fetchedNotes);
+				setNotes(convertedNotes);
+			} catch (error) {
+				console.error("Error fetching notes:", error);
+			}
+		}
+	};
 
 	useEffect(() => {
 		loadNotes();
 	}, []);
 
-	const loadNotes = () => {
-		setNotes(NoteDb.getNotes());
-	};
+	function convertToNotes(notesArray: any[]): Note[] {
+		return notesArray
+			.filter(
+				(note) => typeof note.id === "string" && typeof note.title === "string"
+			)
+			.map((note) => ({
+				id: note.id,
+				title: note.title,
+			}));
+	}
 
-	const handleDeleteNote = (noteId: number) => {
-		NoteDb.deleteNote(noteId);
-
+	const handleDeleteNote = async (note: Note) => {
+		await deleteNote({ id: note.id.toString(), userId: userId });
 		loadNotes();
 		router.push(`/notes`);
 	};
 
-	const handleCreateNote = () => {
-		const newNote = { id: Date.now(), title: "Untitled", content: "" };
-		NoteDb.createNote(newNote);
-
+	const handleCreateNote = async () => {
+		const newNote = await createNote({ userId: userId });
 		loadNotes();
-		openNote(newNote.id);
+		if (newNote) {
+			newNote.id && openNote(parseInt(newNote.id));
+		}
 	};
 
 	const openNote = (noteId: number) => {
@@ -54,25 +75,26 @@ export default function Navigation() {
 						Create Document
 					</Button>
 					<ul className="flex flex-col gap-2 p-2">
-						{notes.map((note) => (
-							<li className="flex flex-row items-center gap-2" key={note.id}>
-								{note.title}
-								<Button
-									variant="outline"
-									className="h-6 px-2 rounded-md"
-									onClick={() => openNote(note.id)}
-								>
-									<Pencil size={16} />
-								</Button>
-								<Button
-									variant="outline"
-									className="h-6 px-2 rounded-md"
-									onClick={() => handleDeleteNote(note.id)}
-								>
-									<Trash2 size={16} />
-								</Button>
-							</li>
-						))}
+						{notes &&
+							notes.map((note) => (
+								<li className="flex flex-row items-center gap-2" key={note.id}>
+									{note.title}
+									<Button
+										variant="outline"
+										className="h-6 px-2 rounded-md"
+										onClick={() => openNote(note.id)}
+									>
+										<Pencil size={16} />
+									</Button>
+									<Button
+										variant="outline"
+										className="h-6 px-2 rounded-md"
+										onClick={() => handleDeleteNote(note)}
+									>
+										<Trash2 size={16} />
+									</Button>
+								</li>
+							))}
 					</ul>
 				</div>
 			</aside>

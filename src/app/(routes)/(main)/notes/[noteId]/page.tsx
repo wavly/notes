@@ -1,10 +1,11 @@
 "use client";
 
-import { Notes } from "@/app/_lib/db";
-import Editor from "@/app/_components/editor";
+import { useRouter } from "next/router";
+import React, { useEffect, useState, ChangeEvent } from "react";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState, ChangeEvent } from "react";
+import Editor from "@/app/_components/editor";
+import { getUserId } from "@/app/_lib/getUser";
+import { getNote, updateNote } from "@/lib/db";
 
 interface NoteIdPageProps {
 	params: {
@@ -13,68 +14,107 @@ interface NoteIdPageProps {
 }
 
 type Note = {
-	id: number;
+	id: string;
+	userId: string;
 	title: string;
 	content: string;
 };
 
-const NoteIdPage = ({ params }: NoteIdPageProps) => {
+export default async function NoteIdPage({ params }: NoteIdPageProps) {
 	const router = useRouter();
-	const [note, setNote] = useState<Note>();
 	const [title, setTitle] = useState<string>("");
-	const [isLoading, setIsLoading] = useState(true);
-	const NoteDb = new Notes("note");
+	const [userId, setUserId] = useState<string>("");
+	const [note, setNote] = useState<Note | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+
+	setUserId(await getUserId());
 
 	useEffect(() => {
-		const fetchedNote = NoteDb.getNoteById(parseInt(params.noteId));
+		async function fetchNote() {
+			try {
+				const fetchedNote = await getNote({
+					id: params.noteId,
+					userId: userId,
+				});
+				const convertedNote = fetchedNote && convertToNote(fetchedNote);
 
-		if (fetchedNote === null) {
-			router.push("/note");
+				if (convertedNote) {
+					setNote(convertedNote);
+					setTitle(convertedNote.title);
+				} else {
+					router.push("/notes");
+				}
+			} catch (error) {
+				console.error("Error fetching note:", error);
+			}
+
+			setIsLoading(false);
 		}
 
-		setIsLoading(false);
-		setNote(fetchedNote);
-		setTitle(fetchedNote.title);
-	}, []);
+		fetchNote();
+	}, [params.noteId, router]);
 
-	const handleContentChange = (content: string) => {
-		if (typeof note !== "undefined") {
-			const newNote = {
-				id: Number(params.noteId),
-				title: title,
-				content,
+	const convertToNote = (noteArray: any[]): Note | null => {
+		const noteObject = noteArray[0];
+
+		if (
+			noteObject &&
+			typeof noteObject.id === "string" &&
+			typeof noteObject.userId === "string" &&
+			typeof noteObject.title === "string" &&
+			typeof noteObject.content === "string"
+		) {
+			return {
+				id: noteObject.id,
+				userId: noteObject.userId,
+				title: noteObject.title,
+				content: noteObject.content,
 			};
-			// Save in local storage
-			NoteDb.updateNote(newNote);
-			// Update local state also
+		}
+
+		return null;
+	};
+
+	const handleContentChange = async (content: string) => {
+		if (note) {
+			const newNote = { ...note, content };
 			setNote(newNote);
+
+			await updateNote({
+				id: note.id,
+				userId: note.userId,
+				content,
+			});
 		}
 	};
 
-	function handleTitleChange(e: ChangeEvent<HTMLInputElement>) {
-		const value = e.target.value;
-		setTitle(value);
-		if (note === undefined) return;
-		const newNote = {
-			id: Number(params.noteId),
-			title: value, // Only title is updated
-			content: note.content,
-		};
+	const handleTitleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+		const newTitle = e.target.value;
+		setTitle(newTitle);
 
-		// Save in the local storage
-		NoteDb.updateNote(newNote);
-		// Update the local state also
-		setNote(newNote);
-	}
+		if (note) {
+			const newNote = { ...note, title: newTitle };
+			setNote(newNote);
+
+			await updateNote({
+				id: note.id,
+				userId: note.userId,
+				title: newTitle,
+			});
+
+			// TODO: Handle title update in the navigation component here
+		}
+	};
 
 	return (
 		<>
-			<div className="p-5 flex text-center justify-center ">
+			<div className="p-5 flex text-center justify-center">
 				<input
-					className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-blue-500"
+					className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-blue-500 w-full"
 					type="text"
 					value={title}
-					onChange={(e) => handleTitleChange(e)}
+					onChange={handleTitleChange}
+					placeholder="Enter note title..."
 				/>
 			</div>
 			<div className="pt-20">
@@ -86,13 +126,11 @@ const NoteIdPage = ({ params }: NoteIdPageProps) => {
 						/>
 					) : (
 						<div className="flex text-center items-center justify-center">
-							loading...
+							Loading...
 						</div>
 					)}
 				</div>
 			</div>
 		</>
 	);
-};
-
-export default NoteIdPage;
+}
