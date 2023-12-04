@@ -62,10 +62,14 @@ export default function Navigation() {
 	};
 
 	const handleCreateNote = async () => {
-		const newNote = await createNote({ userId: userId });
-		loadNotes();
-		if (newNote) {
-			newNote.id && openNote(parseInt(newNote.id));
+		try {
+			const newNote = await createNote({ userId: userId });
+			loadNotes();
+			if (newNote && newNote.id) {
+				openNote(parseInt(newNote.id));
+			}
+		} catch (error) {
+			console.error("Error creating note:", error);
 		}
 	};
 

@@ -3,7 +3,6 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_KEY as string;
 
-console.log(supabaseUrl)
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type NoteParams = {

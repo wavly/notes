@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState, ChangeEvent } from "react";
 
 import Editor from "@/app/_components/editor";
@@ -20,14 +20,21 @@ type Note = {
 	content: string;
 };
 
-export default async function NoteIdPage({ params }: NoteIdPageProps) {
+export default function NoteIdPage({ params }: NoteIdPageProps) {
 	const router = useRouter();
 	const [title, setTitle] = useState<string>("");
 	const [userId, setUserId] = useState<string>("");
 	const [note, setNote] = useState<Note | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
-	setUserId(await getUserId());
+	useEffect(() => {
+		const fetchUserId = async () => {
+			const id = await getUserId();
+			setUserId(id);
+		};
+
+		fetchUserId();
+	}, []);
 
 	useEffect(() => {
 		async function fetchNote() {
@@ -37,12 +44,13 @@ export default async function NoteIdPage({ params }: NoteIdPageProps) {
 					userId: userId,
 				});
 				const convertedNote = fetchedNote && convertToNote(fetchedNote);
-
+				console.log(fetchedNote, convertedNote);
 				if (convertedNote) {
 					setNote(convertedNote);
 					setTitle(convertedNote.title);
 				} else {
 					router.push("/notes");
+					console.error("Note not found");
 				}
 			} catch (error) {
 				console.error("Error fetching note:", error);
@@ -51,8 +59,10 @@ export default async function NoteIdPage({ params }: NoteIdPageProps) {
 			setIsLoading(false);
 		}
 
-		fetchNote();
-	}, [params.noteId, router]);
+		if (userId) {
+			fetchNote();
+		}
+	}, [params.noteId, router, userId]);
 
 	const convertToNote = (noteArray: any[]): Note | null => {
 		const noteObject = noteArray[0];
