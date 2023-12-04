@@ -69,14 +69,14 @@ export default function NoteIdPage({ params }: NoteIdPageProps) {
 
 		if (
 			noteObject &&
-			typeof noteObject.id === "string" &&
-			typeof noteObject.userId === "string" &&
+			typeof noteObject.id === "number" &&
+			typeof noteObject.user_id === "string" &&
 			typeof noteObject.title === "string" &&
 			typeof noteObject.content === "string"
 		) {
 			return {
-				id: noteObject.id,
-				userId: noteObject.userId,
+				id: noteObject.id.toString(),
+				userId: noteObject.user_id,
 				title: noteObject.title,
 				content: noteObject.content,
 			};

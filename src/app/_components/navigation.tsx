@@ -47,10 +47,10 @@ export default function Navigation() {
 	function convertToNotes(notesArray: any[]): Note[] {
 		return notesArray
 			.filter(
-				(note) => typeof note.id === "string" && typeof note.title === "string"
+				(note) => typeof note.id === "number" && typeof note.title === "string"
 			)
 			.map((note) => ({
-				id: note.id,
+				id: note.id.toString(),
 				title: note.title,
 			}));
 	}
@@ -83,7 +83,7 @@ export default function Navigation() {
 				<div>
 					<Button onClick={handleCreateNote} className="flex flex-row gap-2">
 						<Plus size={16} />
-						Create Document
+						Create Note
 					</Button>
 					<ul className="flex flex-col gap-2 p-2">
 						{notes &&
