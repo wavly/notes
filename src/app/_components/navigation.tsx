@@ -14,12 +14,19 @@ type Note = {
 	title: string;
 };
 
-export default async function Navigation() {
+export default function Navigation() {
 	const router = useRouter();
 	const [userId, setUserId] = useState<string>("");
 	const [notes, setNotes] = useState<Note[] | null>([]);
 
-	setUserId(await getUserId());
+	useEffect(() => {
+		const fetchUserId = async () => {
+			const id = await getUserId();
+			setUserId(id);
+		};
+
+		fetchUserId();
+	}, []);
 
 	const loadNotes = async () => {
 		if (userId !== "") {
@@ -35,7 +42,7 @@ export default async function Navigation() {
 
 	useEffect(() => {
 		loadNotes();
-	}, []);
+	}, [userId]);
 
 	function convertToNotes(notesArray: any[]): Note[] {
 		return notesArray
