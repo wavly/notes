@@ -33,7 +33,7 @@ export default async function HomePage() {
       </section>
       <section>
         <Text size="5" color="gray">
-          {isAuthenticated ? "Ready to take more notes?" : "You're just ONE click away..." }
+          {isAuthenticated ? "Ready to take better notes?" : "You're just ONE click away..." }
         </Text>
       </section>
     </Flex>
