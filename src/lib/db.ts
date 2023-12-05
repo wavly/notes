@@ -101,4 +101,3 @@ export async function getNotesByUser(userId: string) {
 
 	return data;
 }
-
