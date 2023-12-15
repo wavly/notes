@@ -12,28 +12,53 @@
 
 ### Prerequisites
 
-- List any prerequisites, libraries, or tools needed to run this project.
+- React/NextJS basic understanding
 - NodeJS LTS
 - Yarn (Requires NPM)
 
 ### Installation and Setup
 
 1. **Clone the repository**:
-   ```
-   git clone https://github.com/wavly/notes
-   ```
+    ```
+    git clone https://github.com/wavly/notes
+    ```
 2. **Navigate to the project directory**:
-   ```
-   cd notes
-   ```
+
+    ```
+     cd notes
+    ```
+
 3. **Install dependencies**:
-   ```
-   yarn add 
-   ```
-4. **Run the application**:
-   ```
-   [Commands to start the app]
-   ```
+
+    ```
+     yarn install
+    ```
+
+Unfortunately, running the app involves more steps than just the ones you have completed. You need to (login/sign up) in [Supabase](https://supabase.com/) and [WorkOS](https://workos.com/). First rename the `.env.example` to `.env`.
+
+In `WorkOS` you need:
+
+- WORKOS_CLIENT_ID
+- WORKOS_API_KEY
+- WORKOS_REDIRECT_URI
+
+And in `Supabase` you need:
+
+- SUPABASE_URL
+- SUPABASE_KEY
+
+Put all the strings one by one in `.env` with its appropriate name.
+
+After that you need to generate a random `base64` string for `JWT_SECRET_KEY`:
+
+```js
+node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
+```
+
+The string that you get by running the above command, you need to put the resulting string in `.env` file: `JWT_SECRET_KEY`
+
+> [!NOTE]
+> We will be simplifying this setup to make it easier to get started.
 
 ## Project Structure
 
