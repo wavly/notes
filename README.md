@@ -34,7 +34,7 @@
      yarn install
     ```
 
-Unfortunately, running the app involves more steps than just the ones you have completed. You need to (login/sign up) in [Supabase](https://supabase.com/) and [WorkOS](https://workos.com/).
+Unfortunately, running the app involves more steps than just the ones you have completed. You need to (login/sign up) in [Supabase](https://supabase.com/) and [WorkOS](https://workos.com/). First rename the `.env.example` to `.env`.
 
 In `WorkOS` you need:
 
