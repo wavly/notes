@@ -12,29 +12,27 @@
 
 ### Prerequisites
 
-- List any prerequisites, libraries, or tools needed to run this project.
+- React/NextJS basic understanding
 - NodeJS LTS
 - Yarn (Requires NPM)
 
 ### Installation and Setup
 
 1. **Clone the repository**:
-   ```
-   git clone https://github.com/wavly/notes
-   ```
+    ```
+    git clone https://github.com/wavly/notes
+    ```
 2. **Navigate to the project directory**:
-   ```
-   cd notes
-   ```
-3. **Install dependencies**:
-   ```
-   yarn add 
-   ```
-4. **Run the application**:
-   ```
-   [Commands to start the app]
-   ```
 
+    ```
+     cd notes
+    ```
+
+3. **Install dependencies**:
+
+    ```
+     yarn install
+    ```
 ## Project Structure
 
 - Briefly describe the architecture or main components of the project.
