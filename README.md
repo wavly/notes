@@ -51,7 +51,7 @@ Put all the strings one by one in `.env` with its appropriate name.
 
 After that you need to generate a random `base64` string for `JWT_SECRET_KEY`:
 
-```
+```js
 node -e "console.log(require('crypto').randomBytes(64).toString('base64'));"
 ```
 
