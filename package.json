@@ -11,7 +11,9 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.3.3",
+		"@stylexjs/stylex": "^0.3.0",
 		"astro": "^4.0.6",
+		"astro-stylex": "^0.1.1",
 		"typescript": "^5.3.3"
 	},
 	"devDependencies": {
