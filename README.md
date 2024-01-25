@@ -1,54 +1,37 @@
-# Wavly Notes
+![Logo](.github/assets/logo.png)
 
-*Open Source Note taking app designed for the community*
+Open Source Note taking app designed for the community
 
----
+# 🚀 Getting Started
 
-## Demo/Live Link
+## Prerequisites
 
-- Not avail
+- [Astro](https://astro.build/) and [Typescript](https://www.typescriptlang.org/) basic understanding
+- [NodeJS](https://nodejs.org/en) LTS
+- [Pnpm](https://pnpm.io/) (For building and running the app locally)
 
-## Getting Started
+## Installation and Setup
 
-### Prerequisites
+- **Clone the repository:**
 
-- List any prerequisites, libraries, or tools needed to run this project.
-- NodeJS LTS
-- Yarn (Requires NPM)
+  ```bash
+  git clone https://github.com/wavly/notes
+  ```
 
-### Installation and Setup
+- **Navigate to the project directory:**
 
-1. **Clone the repository**:
-   ```
-   git clone https://github.com/wavly/notes
-   ```
-2. **Navigate to the project directory**:
-   ```
+  ```bash
    cd notes
    ```
-3. **Install dependencies**:
-   ```
-   yarn add 
-   ```
-4. **Run the application**:
-   ```
-   [Commands to start the app]
-   ```
 
-## Project Structure
+- **Install dependencies:**
 
-- Briefly describe the architecture or main components of the project.
-- Link to additional documentation or wikis if available.
+  ```bash
+  pnpm install
+  ```
 
-## Contributing
+## Development
 
-We welcome contributions to this project! For guidelines on how to contribute, please refer to the [CONTRIBUTING.md](.github/CONTRIBUTING.md) file.
-
-## Acknowledgements and Appreciation
-
-- Express gratitude to contributors, mentors, or anyone who helped with the project.
-- You can also list any libraries or tools you used.
-
-## Additional Information
-
-Wavly Notes is [GNUV3](LICENSE) under MIT.
+- `pnpm dev` To start the dev server
+- `pnpm build` To build the static site into `./build`
+- `pnpm preview` To preview the builded site in `./build` ( no dev environment )
