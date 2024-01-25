@@ -10,7 +10,7 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.3.3",
+		"@astrojs/check": "^0.4.1",
 		"@stylexjs/stylex": "^0.3.0",
 		"astro": "^4.0.6",
 		"astro-stylex": "^0.1.1",
